@@ -1,6 +1,6 @@
 '''
 爬取豆瓣正在上映电影
-电影名称、导演、主要演员、评分、链接
+电影名称、热门评论、海报
 '''
 
 import requests
@@ -34,12 +34,12 @@ def get_movieurl(url):
         title_li = movie.find('li', class_='stitle')
         link = title_li.find('a', class_='ticket-btn')['href']
         movie_list.append(link)
-        # try:
-        #     with open('douban.txt', 'a+') as f:
-        #         f.write('电影名称：{} \t 电影链接：{} \n'.format(name, link))
-        #         print('电影名称写入', name)
-        # except Exception as e:
-        #     print(str(e))
+        try:
+            with open('douban.txt', 'a+') as f:
+                f.write('电影名称：{} \t 电影链接：{} \n'.format(name, link))
+                print('电影名称写入', name)
+        except Exception as e:
+            print(str(e))
     return movie_list
 
 def get_comment_url(url):
