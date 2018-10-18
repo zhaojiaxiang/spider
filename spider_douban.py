@@ -5,12 +5,14 @@
 
 import requests
 from bs4 import BeautifulSoup
+import re
 
 def get_html(url):
     try:
         r = requests.get(url, timeout=30)
         r.raise_for_status
-        r.encoding = r.apparent_encoding
+        # r.encoding = r.apparent_encoding
+        r.encoding = 'utf-8'  #用上面的一行代码会造成乱码问题
         return r.text
     except Exception as e:
         return e
@@ -77,8 +79,9 @@ def get_content(url):
     print('图片下载完成')
 
     comments_url,comment_num = get_comment_url(url)
-    comment_num = comment_num
-    comment_num = comment_num[3:8]
+    # comment_num = comment_num
+    # comment_num = comment_num[3:8] 
+    comment_num = re.findall('\d+', comment_num)[0] #获取字符串中的数字，即评论条数
     comment_pages = int(int(comment_num)/20)
     for page in range(0, comment_pages):
         try:
